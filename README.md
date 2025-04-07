@@ -6,3 +6,4 @@ The project is still a prototype.
 https://www.youtube.com/watch?v=-U9YpmkEfCg
 
 
+![20250407_115256](https://github.com/user-attachments/assets/18d18266-601c-49d2-af18-fd9a0685a7b8)
