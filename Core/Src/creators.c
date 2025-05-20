@@ -16,7 +16,7 @@ unsigned int len_str(const char* source)
 {
 	unsigned int len = 0;
 	const char* it = source;
-	while(*it!=0)
+	while(*it>4)
 	{
 		it++;
 		len++;
@@ -30,7 +30,7 @@ unsigned int len_wstr(const wchar_t* source)
 	const wchar_t* it = source;
 	if(it==NULL)
 		return 0;
-	while(*it!=0)
+	while(*it>4)
 	{
 		it++;
 		len++;
@@ -42,7 +42,7 @@ void copy_wstr(wchar_t* const dest, const wchar_t* const source)
 {
 	const wchar_t* it = source;
 	wchar_t* it_dest = dest;
-	while(it!=0 && *it!=0)
+	while(it!=0 && *it>4)
 	{
 		*it_dest = *it;
 		it++;
@@ -55,7 +55,7 @@ void copy_wstr_to_str(uint8_t* const dest, const wchar_t* const source)
 {
 	const wchar_t* it = source;
 	uint8_t* it_dest = dest;
-	while(it!=0 && *it!=0)
+	while(it!=0 && *it>4)
 	{
 		*it_dest = (uint8_t)*it;
 		it++;
@@ -105,7 +105,7 @@ void TestInit()
 	Hist.flashcard[0] = f4;
 	Hist.flashcard[1] = f5;
 	Hist.flashcard[2] = f6;
-	Hist.numberOfFlashCards = 2;
+	Hist.numberOfFlashCards = 3;
 
 	FlashCard f7 = CreateFlashcard(L"What is a real-time operating system (RTOS)?", L"An RTOS manages hardware and software resources to meet real-time application requirements");
 	FlashCard f8 = CreateFlashcard(L"What is the difference between EEPROM and flash memory in firmware?", L"EEPROM can be written byte-by-byte, while flash memory is written in larger blocks.");

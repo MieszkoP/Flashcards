@@ -5,7 +5,7 @@
  *      Author: mieszko
  */
 #include "displays.h"
-void DisplayString(const wchar_t* string)
+void DisplayString(const uint16_t* string)
 {
 	//We must convert w_char_t to char. Currently wide char is not supported.
 	uint8_t dest[500] = {0};

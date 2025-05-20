@@ -16,7 +16,8 @@ void ClickedBackOrOption()
 		currentStateMain = CATEGORY_SELECTION;
 	break;
 	case CATEGORY_SELECTION:
-		switch(currentStateOption)
+		currentStateMain = UPLOAD_DATA;
+		/*switch(currentStateOption)
 		{
 		case OPTION:
 			currentStateOption = DEFAULT;
@@ -24,9 +25,10 @@ void ClickedBackOrOption()
 		case DEFAULT:
 			//currentStateOption = OPTION;
 			break;
-		}
+		}*/
 	break;
 	case UPLOAD_DATA:
+		currentStateMain = CATEGORY_SELECTION;
 		break;
 	}
 }

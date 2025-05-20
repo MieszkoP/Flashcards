@@ -47,7 +47,7 @@
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-uint8_t buffer[1];
+uint8_t buffer[1000];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,7 +94,6 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  //HAL_UART_Receive_IT(&huart2, buffer, 1);
   currentStateMain = CATEGORY_SELECTION;
   /* USER CODE END 2 */
 
@@ -123,41 +122,54 @@ int main(void)
 		{
 		case QUESTION:
 			DisplayString(flashcard.question.data);
-			print("Question\n", &huart2);
+			//print("Question\n", &huart2);
 
 		break;
 		case ANSWER:
 			DisplayString(flashcard.answer.string);
-			print("Answer\n", &huart2);
+			//print("Answer\n", &huart2);
 		break;
 		}
 	break;
 	case CATEGORY_SELECTION:
 	    categ =  allCategories[State_CategoryNumber];
 	  	DisplayString(categ.name);
-	  	print("CategorySelection\n", &huart2);
+	  	//print("CategorySelection\n", &huart2);
 	  	break;
 	case UPLOAD_DATA:
 		//TO BE DONE
-		//uint8_t dest[500] = {0};
+		DisplayString(L"Load Data in Flashcard App");
+		SaveIncomingDataToFlashMemory();
+		MapFlashMemoryToStructures();
+		DisplayString(L"Data Loaded!");
+		/*
+		DisplayString(L"Loading memory pages...");
+		if(buffer2[499]==0x0004)
+		{
+			currentStateMain = CATEGORY_SELECTION;
+		}
+		*/
 		//LCD_Clear_size(BACK_COLOR, 5,5, size_of_prev_string*8);
 		//size_of_prev_string = len_str(buffer);
 		//LCD_ShowString(5,5,buffer);
-		continue;
+		break;
 	}
   SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
-  SCB->SCR = SCB->SCR | 0x04;
+  if(currentStateMain!=UPLOAD_DATA)
+	  SCB->SCR = SCB->SCR | 0x04;
 
   EXTI->PR |= EXTI_PR_PR9;
   EXTI->PR |= EXTI_PR_PR10;
   EXTI->PR |= EXTI_PR_PR11;
   EXTI->PR |= EXTI_PR_PR12;
-  print("_WFI_0", &huart2);
+  //print("_WFI_0", &huart2);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-  print("_WFI_1", &huart2);
+  //print("_WFI_1", &huart2);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+  //if(currentStateMain==UPLOAD_DATA)
+	  //HAL_NVIC_EnableIRQ(USART2_IRQn);
   __WFI();
-  print("_WFI_after", &huart2);
+  //print("_WFI_after", &huart2);
   }
 
   /* USER CODE END 3 */
@@ -278,9 +290,9 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-	  //SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
+	  SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
 	  //DisplayString(L"lalalalala");
-	  //HAL_UART_Receive_DMA(&huart2, buffer, 1);
+	  HAL_UART_Receive_DMA(&huart2, buffer, 1);
 }
 /* USER CODE END 4 */
 
