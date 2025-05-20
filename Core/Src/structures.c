@@ -8,3 +8,4 @@
 
 Category* allCategories;
 unsigned int numberOfCategories;
+bool InitializedByTestInit;

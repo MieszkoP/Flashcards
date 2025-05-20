@@ -26,6 +26,7 @@
 #include "structures.h"
 #include "displays.h"
 #include "LCD.h"
+#include "reception.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,7 +88,8 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  TestInit(); //We initialize the list of categories to be able to test the program
+  //TestInit(); //We initialize the list of categories to be able to test the program
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -103,6 +105,14 @@ int main(void)
   POINT_COLOR = 0x0000;
   Lcd_Init();
   LCD_Clear(BACK_COLOR);
+  if(*(uint16_t*)0x0800F800 != 0x0001)
+ {
+ 	TestInit();
+ }
+  else
+  {
+	  MapFlashMemoryToStructures();
+  }
   SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk; //You will need to turn on the clock every time you want to send a signal.
   currentStateMain = CATEGORY_SELECTION;
   while (1)
@@ -113,27 +123,28 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	//Category** categ;
     switch(currentStateMain)
 	{
     case LEARNING:
-		Category categ =  allCategories[State_CategoryNumber];
-		FlashCard flashcard = categ.flashcard[State_FlashCardNumber];
+		//categ =  &allCategories[State_CategoryNumber];
+		//FlashCard* flashcard = categ->flashcard[State_FlashCardNumber];
 		switch(currentStateFlashCardSide)
 		{
 		case QUESTION:
-			DisplayString(flashcard.question.data);
+			DisplayString(allCategories[State_CategoryNumber].flashcard[State_FlashCardNumber].question.data);
 			//print("Question\n", &huart2);
 
 		break;
 		case ANSWER:
-			DisplayString(flashcard.answer.string);
+			DisplayString(allCategories[State_CategoryNumber].flashcard[State_FlashCardNumber].answer.string);
 			//print("Answer\n", &huart2);
 		break;
 		}
 	break;
 	case CATEGORY_SELECTION:
-	    categ =  allCategories[State_CategoryNumber];
-	  	DisplayString(categ.name);
+	    //categ =  &allCategories[State_CategoryNumber];
+	  	DisplayString(allCategories[State_CategoryNumber].name);
 	  	//print("CategorySelection\n", &huart2);
 	  	break;
 	case UPLOAD_DATA:

@@ -24,10 +24,10 @@ unsigned int len_str(const char* source)
 	return len;
 }
 
-unsigned int len_wstr(const wchar_t* source)
+unsigned int len_wstr(const uint16_t* source)
 {
 	unsigned int len = 0;
-	const wchar_t* it = source;
+	const uint16_t* it = source;
 	if(it==NULL)
 		return 0;
 	while(*it>4)
@@ -38,10 +38,10 @@ unsigned int len_wstr(const wchar_t* source)
 	return len;
 }
 
-void copy_wstr(wchar_t* const dest, const wchar_t* const source)
+void copy_wstr(uint16_t* const dest, const uint16_t* const source)
 {
-	const wchar_t* it = source;
-	wchar_t* it_dest = dest;
+	const uint16_t* it = source;
+	uint16_t* it_dest = dest;
 	while(it!=0 && *it>4)
 	{
 		*it_dest = *it;
@@ -51,9 +51,9 @@ void copy_wstr(wchar_t* const dest, const wchar_t* const source)
 	*it_dest = 0;
 }
 
-void copy_wstr_to_str(uint8_t* const dest, const wchar_t* const source)
+void copy_wstr_to_str(uint8_t* const dest, const uint16_t* const source)
 {
-	const wchar_t* it = source;
+	const uint16_t* it = source;
 	uint8_t* it_dest = dest;
 	while(it!=0 && *it>4)
 	{
@@ -64,15 +64,15 @@ void copy_wstr_to_str(uint8_t* const dest, const wchar_t* const source)
 	*it_dest = 0;
 }
 
-FlashCard CreateFlashcard(const wchar_t* question_data, const wchar_t* answer_data)
+FlashCard CreateFlashcard(const uint16_t* question_data, const uint16_t* answer_data)
 {
 	Question question;
 	Answer answer;
 	answer.string = L"";
 	question.data = L"";
 
-	answer.string = (wchar_t*)calloc(len_wstr(answer_data)+1, sizeof(wchar_t));
-	question.data = (wchar_t*)calloc(len_wstr(question_data)+1, sizeof(wchar_t));
+	answer.string = (uint16_t*)calloc(len_wstr(answer_data)+1, sizeof(uint16_t));
+	question.data = (uint16_t*)calloc(len_wstr(question_data)+1, sizeof(uint16_t));
 
 	copy_wstr(answer.string, answer_data);
 	copy_wstr(question.data, question_data);
@@ -119,6 +119,7 @@ void TestInit()
 	Prog.numberOfFlashCards = 3;
 
 	numberOfCategories=3;
+	InitializedByTestInit = true;
 
 	allCategories = (Category*)calloc(3,sizeof(Category));
 	allCategories[0] = Geog;

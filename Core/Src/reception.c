@@ -39,12 +39,12 @@ void SaveIncomingDataToFlashMemory()
 {
 	uint8_t buffer[1024];
 	bool isEnd = false;
-	int page_number = 0;
+	uint16_t page_number = 0;
 	while(!isEnd)
 	{
 		HAL_UART_Receive(&huart2, buffer, 1024, HAL_MAX_DELAY);
 		uint16_t buffer2[512];
-		for (int i = 0; i < 512; i++)
+		for (uint16_t i = 0; i < 512; i++)
 		{
 			buffer2[i] = (uint16_t)(buffer[2*i] | (buffer[2*i+1] << 8));  // little endian
 			if(buffer2[i]==0x0004)
@@ -58,12 +58,15 @@ void SaveIncomingDataToFlashMemory()
 
 void FreeCurrentSpace()
 {
-	for(int i = 0; i<numberOfCategories; i++)
+	for(uint16_t i = 0; i<numberOfCategories; i++)
 	{
-		for(int j = 0; j< allCategories[i].numberOfFlashCards; j++)
+		for(uint16_t j = 0; j< allCategories[i].numberOfFlashCards; j++)
 		{
-			free(allCategories[i].flashcard[j].answer.string);
-			free(allCategories[i].flashcard[j].question.data);
+			if(InitializedByTestInit)
+			{
+				free(allCategories[i].flashcard[j].answer.string);
+				free(allCategories[i].flashcard[j].question.data);
+			}
 		}
 		free(allCategories[i].flashcard);
 	}
@@ -73,11 +76,12 @@ void FreeCurrentSpace()
 void MapFlashMemoryToStructures()
 {
 	FreeCurrentSpace();
-	uint16_t* it = FLASH_START_ADDRESS;
+	InitializedByTestInit = false;
+	uint16_t* it = (uint16_t*)FLASH_START_ADDRESS;
 	numberOfCategories = GetNumberOfCategories();
 	allCategories = (Category*)calloc(numberOfCategories,sizeof(Category));
-	int currentCategory = -1;
-	int currentFlashcard = -1;
+	uint16_t currentCategory = -1;
+	uint16_t currentFlashcard = -1;
 	while(*it!=0x0004)
 	{
 		if(*it==0x0001)
@@ -85,8 +89,9 @@ void MapFlashMemoryToStructures()
 			currentCategory +=1;
 			currentFlashcard = -1;
 			allCategories[currentCategory].name = (it+1);
-			int numberOfFlashcardsInCategory = GetNumberOfFlashcardsInCategory();
+			uint16_t numberOfFlashcardsInCategory = GetNumberOfFlashcardsInCategory(it+1);
 			allCategories[currentCategory].flashcard = (FlashCard*)calloc(numberOfFlashcardsInCategory,sizeof(FlashCard));
+			allCategories[currentCategory].numberOfFlashCards = numberOfFlashcardsInCategory;
 		}
 		if(*it==0x0002)
 		{
@@ -102,10 +107,10 @@ void MapFlashMemoryToStructures()
 	}
 }
 
-int GetNumberOfCategories()
+uint16_t GetNumberOfCategories()
 {
-	int counter = 0;
-	uint16_t* it = FLASH_START_ADDRESS;
+	uint16_t counter = 0;
+	uint16_t* it = (uint16_t*)FLASH_START_ADDRESS;
 	while(*it!=0x0004)
 	{
 		if(*it==0x0001)
@@ -117,11 +122,11 @@ int GetNumberOfCategories()
 	return counter;
 }
 
-int GetNumberOfFlashcardsInCategory(const uint16_t* startAdress)
+uint16_t GetNumberOfFlashcardsInCategory(const uint16_t* startAdress)
 {
-	int counter = 0;
-	uint16_t* it = startAdress;
-	while(*it!=0x0001)
+	uint16_t counter = 0;
+	const uint16_t* it = startAdress;
+	while(*it!=0x0001 && *it!=0x0004)
 	{
 		if(*it==0x0002)
 		{

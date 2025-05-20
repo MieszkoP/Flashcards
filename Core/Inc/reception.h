@@ -17,5 +17,6 @@
 #include "main.h"
 void SaveIncomingDataToFlashMemory();
 void MapFlashMemoryToStructures();
-
+uint16_t GetNumberOfCategories();
+uint16_t GetNumberOfFlashcardsInCategory(const uint16_t* startAdress);
 #endif /* INC_RECEPTION_H_ */

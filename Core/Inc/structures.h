@@ -9,17 +9,18 @@
 #define INC_STRUCTURES_H_
 
 #include "stddef.h"
-
+#include <stdint.h>
+#include <stdbool.h>
 typedef struct Question
 {
-	wchar_t* data;
+	uint16_t* data;
 } Question;
 
 typedef union Answer
 {
-	wchar_t* string;
-	wchar_t** picture2D;
-	wchar_t* pictureMap;
+	uint16_t* string;
+	uint16_t** picture2D;
+	uint16_t* pictureMap;
 } Answer;
 
 typedef struct FlashCard
@@ -37,6 +38,7 @@ typedef struct Category
 } Category;
 
 extern unsigned int numberOfCategories;
+extern bool InitializedByTestInit;
 extern Category* allCategories;
 
 #endif /* INC_STRUCTURES_H_ */
