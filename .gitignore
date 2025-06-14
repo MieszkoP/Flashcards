@@ -1,0 +1,28 @@
+# build artifacts
+/Debug/
+/Release/
+/build/
+
+# Eclipse/CubeIDE metadata (cache, local settings)
+.metadata/
+*.launch
+*.log
+
+# Backup files
+*~
+*.bak
+*.swp
+*.tmp
+
+# Compiled object files
+*.o
+*.d
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+
+# CubeMX generated unnecessary outputs
+MX_*
+

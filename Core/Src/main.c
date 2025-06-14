@@ -53,7 +53,7 @@ uint8_t buffer[1000];
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
+void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -68,6 +68,7 @@ static void MX_USART2_UART_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+#ifndef TEST
 int main(void)
 {
 
@@ -105,9 +106,10 @@ int main(void)
   POINT_COLOR = 0x0000;
   Lcd_Init();
   LCD_Clear(BACK_COLOR);
-  if(*(uint16_t*)0x0800F800 != 0x0001)
+  if(*(uint16_t*)0x0800F800 != 0x0001) //FLASH_START_ADDRESS 0x0800F800
  {
  	TestInit();
+ 	//DisplayString(*(uint16_t*)0x0800F800+u'0');
  }
   else
   {
@@ -149,10 +151,10 @@ int main(void)
 	  	break;
 	case UPLOAD_DATA:
 		//TO BE DONE
-		DisplayString(L"Load Data in Flashcard App");
+		DisplayString(u"Load Data in Flashcard App");
 		SaveIncomingDataToFlashMemory();
 		MapFlashMemoryToStructures();
-		DisplayString(L"Data Loaded!");
+		DisplayString(u"Data Loaded!");
 		/*
 		DisplayString(L"Loading memory pages...");
 		if(buffer2[499]==0x0004)
@@ -185,6 +187,7 @@ int main(void)
 
   /* USER CODE END 3 */
 }
+#endif
 
 /**
   * @brief System Clock Configuration
@@ -260,7 +263,7 @@ static void MX_USART2_UART_Init(void)
   * @param None
   * @retval None
   */
-static void MX_GPIO_Init(void)
+void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 /* USER CODE BEGIN MX_GPIO_Init_1 */

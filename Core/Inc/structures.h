@@ -31,7 +31,7 @@ typedef struct FlashCard
 
 typedef struct Category
 {
-	wchar_t* name;
+	uint16_t* name;
 	FlashCard* flashcard;
 	//unsigned int currentFlashcard;
 	unsigned int numberOfFlashCards;

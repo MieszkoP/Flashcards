@@ -51,6 +51,7 @@ void copy_wstr(uint16_t* const dest, const uint16_t* const source)
 	*it_dest = 0;
 }
 
+
 void copy_wstr_to_str(uint8_t* const dest, const uint16_t* const source)
 {
 	const uint16_t* it = source;
@@ -68,8 +69,8 @@ FlashCard CreateFlashcard(const uint16_t* question_data, const uint16_t* answer_
 {
 	Question question;
 	Answer answer;
-	answer.string = L"";
-	question.data = L"";
+	answer.string = u"";
+	question.data = u"";
 
 	answer.string = (uint16_t*)calloc(len_wstr(answer_data)+1, sizeof(uint16_t));
 	question.data = (uint16_t*)calloc(len_wstr(question_data)+1, sizeof(uint16_t));
@@ -85,33 +86,33 @@ FlashCard CreateFlashcard(const uint16_t* question_data, const uint16_t* answer_
 
 void TestInit()
 {
-	FlashCard f1 = CreateFlashcard(L"Where is Mount Vinson located?", L"Mount Vinson is located in Antarctica");
-	FlashCard f2 = CreateFlashcard(L"Which is the largest landlocked country?", L"Kazakhstan");
-	FlashCard f3 = CreateFlashcard(L"What is the longest mountain range in the world??", L"The Andes");
+	FlashCard f1 = CreateFlashcard(u"Where is Mount Vinson located?", u"Mount Vinson is located in Antarctica");
+	FlashCard f2 = CreateFlashcard(u"Which is the largest landlocked country?", u"Kazakhstan");
+	FlashCard f3 = CreateFlashcard(u"What is the longest mountain range in the world??", u"The Andes");
 	Category Geog;
-	Geog.name = L"Geography";
+	Geog.name = u"Geography";
 	Geog.flashcard = (FlashCard*)calloc(3,sizeof(FlashCard));
 	Geog.flashcard[0] = f1;
 	Geog.flashcard[1] = f2;
 	Geog.flashcard[2] = f3;
 	Geog.numberOfFlashCards = 3;
 
-	FlashCard f4 = CreateFlashcard(L"first emperor of China?", L"Qin Shi Huang");
-	FlashCard f5 = CreateFlashcard(L"When did the Roman Empire officially fall?", L"476 AD");
-	FlashCard f6 = CreateFlashcard(L"In which year did the Titanic sink?", L"The Titanic sank in 1912.");
+	FlashCard f4 = CreateFlashcard(u"first emperor of China?", u"Qin Shi Huang");
+	FlashCard f5 = CreateFlashcard(u"When did the Roman Empire officially fall?", u"476 AD");
+	FlashCard f6 = CreateFlashcard(u"In which year did the Titanic sink?", u"The Titanic sank in 1912.");
 	Category Hist;
-	Hist.name = L"History";
+	Hist.name = u"History";
 	Hist.flashcard = (FlashCard*)calloc(3,sizeof(FlashCard));
 	Hist.flashcard[0] = f4;
 	Hist.flashcard[1] = f5;
 	Hist.flashcard[2] = f6;
 	Hist.numberOfFlashCards = 3;
 
-	FlashCard f7 = CreateFlashcard(L"What is a real-time operating system (RTOS)?", L"An RTOS manages hardware and software resources to meet real-time application requirements");
-	FlashCard f8 = CreateFlashcard(L"What is the difference between EEPROM and flash memory in firmware?", L"EEPROM can be written byte-by-byte, while flash memory is written in larger blocks.");
-	FlashCard f9 = CreateFlashcard(L"What is a watchdog timer in firmware?", L"A watchdog timer resets the system if the firmware fails to respond within a timeout.");
+	FlashCard f7 = CreateFlashcard(u"What is a real-time operating system (RTOS)?", u"An RTOS manages hardware and software resources to meet real-time application requirements");
+	FlashCard f8 = CreateFlashcard(u"What is the difference between EEPROM and flash memory in firmware?", u"EEPROM can be written byte-by-byte, while flash memory is written in larger blocks.");
+	FlashCard f9 = CreateFlashcard(u"What is a watchdog timer in firmware?", u"A watchdog timer resets the system if the firmware fails to respond within a timeout.");
 	Category Prog;
-	Prog.name = L"Firmware Programming";
+	Prog.name = u"Firmware Programming";
 	Prog.flashcard = (FlashCard*)calloc(3,sizeof(FlashCard));
 	Prog.flashcard[0] = f7;
 	Prog.flashcard[1] = f8;

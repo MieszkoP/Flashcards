@@ -37,7 +37,7 @@ void Flash_WritePage(uint32_t address, uint16_t* data, uint16_t length)
 
 void SaveIncomingDataToFlashMemory()
 {
-	uint8_t buffer[1024];
+	uint8_t buffer[1024] = {0};
 	bool isEnd = false;
 	uint16_t page_number = 0;
 	while(!isEnd)
@@ -52,6 +52,7 @@ void SaveIncomingDataToFlashMemory()
 				isEnd=true;
 			}
 		}
+		page_number+=1;
 		Flash_WritePage(FLASH_START_ADDRESS+page_number*1024, buffer2, 512);
 	}
 }

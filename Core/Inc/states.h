@@ -27,12 +27,12 @@ typedef enum State_FlashCardSide
 	ANSWER
 } State_FlashCardSide;
 
-extern volatile unsigned int State_FlashCardNumber;
-extern volatile unsigned int State_CategoryNumber;
+extern unsigned int State_FlashCardNumber;
+extern unsigned int State_CategoryNumber;
 
-extern volatile State_Main currentStateMain;
-extern volatile State_Option currentStateOption;
-extern volatile State_FlashCardSide currentStateFlashCardSide;
+extern State_Main currentStateMain;
+extern State_Option currentStateOption;
+extern State_FlashCardSide currentStateFlashCardSide;
 
 
 
