@@ -6,6 +6,26 @@
  */
 //File used for trial initialization of structures
 #include <creators.h>
+#include "stm32f1xx_hal.h"
+
+static FlashCard CreateFlashcard(const uint16_t* question_data, const uint16_t* answer_data)
+{
+	Question question;
+	Answer answer;
+	answer.string = u"";
+	question.data = u"";
+
+	answer.string = (uint16_t*)calloc(len_wstr(answer_data)+1, sizeof(uint16_t));
+	question.data = (uint16_t*)calloc(len_wstr(question_data)+1, sizeof(uint16_t));
+
+	copy_wstr(answer.string, answer_data);
+	copy_wstr(question.data, question_data);
+	FlashCard flashcard;
+	flashcard.answer = answer;
+	flashcard.question = question;
+
+	return flashcard;
+}
 
 void print(const char* data, UART_HandleTypeDef* wsk_huart)
 {
@@ -63,25 +83,6 @@ void copy_wstr_to_str(uint8_t* const dest, const uint16_t* const source)
 		it_dest++;
 	}
 	*it_dest = 0;
-}
-
-FlashCard CreateFlashcard(const uint16_t* question_data, const uint16_t* answer_data)
-{
-	Question question;
-	Answer answer;
-	answer.string = u"";
-	question.data = u"";
-
-	answer.string = (uint16_t*)calloc(len_wstr(answer_data)+1, sizeof(uint16_t));
-	question.data = (uint16_t*)calloc(len_wstr(question_data)+1, sizeof(uint16_t));
-
-	copy_wstr(answer.string, answer_data);
-	copy_wstr(question.data, question_data);
-	FlashCard flashcard;
-	flashcard.answer = answer;
-	flashcard.question = question;
-
-	return flashcard;
 }
 
 void TestInit()

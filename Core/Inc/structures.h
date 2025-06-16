@@ -20,7 +20,7 @@ typedef union Answer
 {
 	uint16_t* string;
 	uint16_t** picture2D;
-	uint16_t* pictureMap;
+	//uint16_t* pictureMap;
 } Answer;
 
 typedef struct FlashCard

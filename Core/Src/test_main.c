@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include "main.h"
 #include "states.h"
+#include "LCD.h"
 
 #define TEST_RUN(TEST_) DisplayTestIfFailed((TEST_), u"Function " #TEST_ " failed")
 

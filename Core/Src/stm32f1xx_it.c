@@ -239,17 +239,17 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
   if(__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_10) != 0x00u)
   {
-	  print("ClickedSelect\n", &huart2);
+	  //print("ClickedSelect\n", &huart2);
     ClickedSelect();
   }
   if(__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_11) != 0x00u)
   {
-	  print("ClickedLeft\n", &huart2);
+	  //print("ClickedLeft\n", &huart2);
     ClickedLeft();
   }
   if(__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_12) != 0x00u)
   {
-	  print("ClickedBackOrOption\n", &huart2);
+	  //print("ClickedBackOrOption\n", &huart2);
     ClickedBackOrOption();
   }
   /* USER CODE END EXTI15_10_IRQn 0 */

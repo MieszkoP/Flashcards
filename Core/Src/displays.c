@@ -5,6 +5,9 @@
  *      Author: mieszko
  */
 #include "displays.h"
+#include "stddef.h"
+#include "LCD.h"
+#include "creators.h"
 void DisplayString(const uint16_t* string)
 {
 	//We must convert w_char_t to char. Currently wide char is not supported.

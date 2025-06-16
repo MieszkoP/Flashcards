@@ -5,8 +5,43 @@
  *      Author: mieszko
  */
 #include "reception.h"
+#include "stdlib.h"
+#include "structures.h"
+#include <stdint.h>
+#include <stdbool.h>
+#include "main.h"
 
-void Flash_WritePage(uint32_t address, uint16_t* data, uint16_t length)
+static uint16_t GetNumberOfCategories()
+{
+	uint16_t counter = 0;
+	uint16_t* it = (uint16_t*)FLASH_START_ADDRESS;
+	while(*it!=0x0004)
+	{
+		if(*it==0x0001)
+		{
+			counter +=1;
+		}
+		it++;
+	}
+	return counter;
+}
+
+static uint16_t GetNumberOfFlashcardsInCategory(const uint16_t* startAdress)
+{
+	uint16_t counter = 0;
+	const uint16_t* it = startAdress;
+	while(*it!=0x0001 && *it!=0x0004)
+	{
+		if(*it==0x0002)
+		{
+			counter +=1;
+		}
+		it++;
+	}
+	return counter;
+}
+
+static void Flash_WritePage(uint32_t address, uint16_t* data, uint16_t length)
 {
     HAL_FLASH_Unlock();
 
@@ -106,35 +141,5 @@ void MapFlashMemoryToStructures()
 		}
 		it++;
 	}
-}
-
-uint16_t GetNumberOfCategories()
-{
-	uint16_t counter = 0;
-	uint16_t* it = (uint16_t*)FLASH_START_ADDRESS;
-	while(*it!=0x0004)
-	{
-		if(*it==0x0001)
-		{
-			counter +=1;
-		}
-		it++;
-	}
-	return counter;
-}
-
-uint16_t GetNumberOfFlashcardsInCategory(const uint16_t* startAdress)
-{
-	uint16_t counter = 0;
-	const uint16_t* it = startAdress;
-	while(*it!=0x0001 && *it!=0x0004)
-	{
-		if(*it==0x0002)
-		{
-			counter +=1;
-		}
-		it++;
-	}
-	return counter;
 }
 

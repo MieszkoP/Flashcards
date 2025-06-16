@@ -7,9 +7,6 @@
 
 #ifndef DISPLAYS_H_
 #define DISPLAYS_H_
-#include "stddef.h"
-#include "LCD.h"
-#include "creators.h"
 void DisplayString();
 
 void DisplayPicture();
